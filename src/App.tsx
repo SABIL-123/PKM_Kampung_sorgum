@@ -16,7 +16,10 @@ import {
   ChevronRight,
   Leaf,
   Target,
-  Award
+  Award,
+  CheckCircle,
+  AlertCircle,
+  Loader2
 } from 'lucide-react';
 
 // --- Components ---
@@ -64,7 +67,10 @@ const Navbar = ({ activeSection, setActiveSection }: { activeSection: string, se
               {item.label}
             </button>
           ))}
-          <button className="bg-sorgum-primary text-white px-6 py-2.5 rounded-full text-[10px] uppercase tracking-widest font-bold hover:scale-105 transition-all shadow-lg shadow-sorgum-primary/20">
+          <button 
+            onClick={() => setActiveSection('kontak')}
+            className="bg-sorgum-primary text-white px-6 py-2.5 rounded-full text-[10px] uppercase tracking-widest font-bold hover:scale-105 transition-all shadow-lg shadow-sorgum-primary/20 cursor-pointer"
+          >
             Gabung Mitra
           </button>
         </div>
@@ -94,6 +100,12 @@ const Navbar = ({ activeSection, setActiveSection }: { activeSection: string, se
                 {item.label}
               </button>
             ))}
+            <button 
+              onClick={() => { setActiveSection('kontak'); setIsMenuOpen(false); }}
+              className="mt-4 bg-white text-sorgum-primary px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:scale-105 transition-all shadow-xl"
+            >
+              Gabung Mitra
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -103,7 +115,7 @@ const Navbar = ({ activeSection, setActiveSection }: { activeSection: string, se
 
 // --- Sections ---
 
-const SectionHome = () => (
+const SectionHome = ({ setActiveSection }: { setActiveSection: (s: string) => void }) => (
   <section className="min-h-screen flex items-center pt-20">
     <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
       <motion.div
@@ -119,8 +131,11 @@ const SectionHome = () => (
           Kampung Sorgum adalah inisiatif revolusioner untuk mengembalikan kejayaan sorghum sebagai sumber pangan sehat, tahan iklim, dan berdaya ekonomi tinggi bagi masyarakat pedesaan Indonesia.
         </p>
         <div className="flex gap-4">
-          <button className="bg-sorgum-primary text-white px-8 py-4 rounded-full flex items-center gap-3 font-bold text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors">
-            Mulai Menjelajah <ArrowRight size={16} />
+          <button 
+            onClick={() => setActiveSection('profil')}
+            className="bg-sorgum-primary text-white px-8 py-4 rounded-full flex items-center gap-3 font-bold text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors"
+          >
+            Lihat Profil Kami <ArrowRight size={16} />
           </button>
         </div>
       </motion.div>
@@ -150,70 +165,97 @@ const SectionHome = () => (
   </section>
 );
 
-const SectionProfile = () => (
-  <section className="py-24 bg-white">
-    <div className="max-w-7xl mx-auto px-6">
-      <div className="text-center mb-20">
-        <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-sorgum-accent mb-4 block">Profil Kami</span>
-        <h2 className="font-serif text-5xl text-sorgum-primary italic">Misi Di Balik Setiap Bulir</h2>
-      </div>
-      
-      <div className="grid md:grid-cols-2 gap-20 items-center mb-24">
-        <div className="space-y-8">
-          <h3 className="font-serif text-4xl text-sorgum-primary">Sejarah & Visi</h3>
-          <p className="text-neutral-500 leading-relaxed font-light">
-            Berawal dari kepedulian terhadap lahan marginal di pesisir dan wilayah kering, Kampung Sorgum lahir sebagai jembatan antara teknologi pertanian modern dengan kearifan lokal petani Nusantara.
-          </p>
-          <div className="grid grid-cols-2 gap-6">
-            <div className="p-6 bg-sorgum-light rounded-3xl border border-sorgum-primary/5">
-              <Target className="text-sorgum-accent mb-4" />
-              <h4 className="font-bold text-xs uppercase mb-2">Visi</h4>
-              <p className="text-xs text-neutral-500">Menjadi pusat inovasi sorghum terkemuka di Asia Tenggara.</p>
-            </div>
-            <div className="p-6 bg-sorgum-light rounded-3xl border border-sorgum-primary/5">
-              <Sprout className="text-sorgum-accent mb-4" />
-              <h4 className="font-bold text-xs uppercase mb-2">Misi</h4>
-              <p className="text-xs text-neutral-500">Memberdayakan petani melalui edukasi dan akses pasar.</p>
+const SectionProfile = () => {
+  const [stats, setStats] = useState<{desaMitra: string, petaniTerdaftar: string, varianProduk: string, produksiTahunan: string} | null>(null);
+
+  useEffect(() => {
+    fetch('/api/stats')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) setStats(data.data);
+      })
+      .catch(err => {
+        console.error('Failed to fetch stats:', err);
+        // Fallback data
+        setStats({ desaMitra: '15+', petaniTerdaftar: '500+', varianProduk: '20+', produksiTahunan: '100t+' });
+      });
+  }, []);
+
+  return (
+    <section className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-20">
+          <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-sorgum-accent mb-4 block">Profil Kami</span>
+          <h2 className="font-serif text-5xl text-sorgum-primary italic">Misi Di Balik Setiap Bulir</h2>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-20 items-center mb-24">
+          <div className="space-y-8">
+            <h3 className="font-serif text-4xl text-sorgum-primary">Sejarah & Visi</h3>
+            <p className="text-neutral-500 leading-relaxed font-light">
+              Berawal dari kepedulian terhadap lahan marginal di pesisir dan wilayah kering, Kampung Sorgum lahir sebagai jembatan antara teknologi pertanian modern dengan kearifan lokal petani Nusantara.
+            </p>
+            <div className="grid grid-cols-2 gap-6">
+              <div className="p-6 bg-sorgum-light rounded-3xl border border-sorgum-primary/5">
+                <Target className="text-sorgum-accent mb-4" />
+                <h4 className="font-bold text-xs uppercase mb-2">Visi</h4>
+                <p className="text-xs text-neutral-500">Menjadi pusat inovasi sorghum terkemuka di Asia Tenggara.</p>
+              </div>
+              <div className="p-6 bg-sorgum-light rounded-3xl border border-sorgum-primary/5">
+                <Sprout className="text-sorgum-accent mb-4" />
+                <h4 className="font-bold text-xs uppercase mb-2">Misi</h4>
+                <p className="text-xs text-neutral-500">Memberdayakan petani melalui edukasi dan akses pasar.</p>
+              </div>
             </div>
           </div>
+          <div className="grid grid-cols-2 gap-4">
+            <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?q=80&w=2670&auto=format&fit=crop" className="rounded-3xl h-64 w-full object-cover shadow-lg" alt="Team" />
+            <img src="https://images.unsplash.com/photo-1594488311340-4284d72f1074?q=80&w=2670&auto=format&fit=crop" className="translate-y-12 rounded-3xl h-64 w-full object-cover shadow-lg" alt="Field" />
+          </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
-          <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?q=80&w=2670&auto=format&fit=crop" className="rounded-3xl h-64 w-full object-cover shadow-lg" alt="Team" />
-          <img src="https://images.unsplash.com/photo-1594488311340-4284d72f1074?q=80&w=2670&auto=format&fit=crop" className="translate-y-12 rounded-3xl h-64 w-full object-cover shadow-lg" alt="Field" />
+
+        <div className="bg-sorgum-primary rounded-[50px] p-12 text-white flex flex-col md:flex-row justify-between gap-12">
+          <div className="flex flex-col gap-2">
+            <span className="text-5xl font-serif">{stats?.desaMitra || '...'}</span>
+            <span className="text-[10px] uppercase font-bold tracking-widest text-white/50">Desa Mitra</span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <span className="text-5xl font-serif">{stats?.petaniTerdaftar || '...'}</span>
+            <span className="text-[10px] uppercase font-bold tracking-widest text-white/50">Petani Terdaftar</span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <span className="text-5xl font-serif">{stats?.varianProduk || '...'}</span>
+            <span className="text-[10px] uppercase font-bold tracking-widest text-white/50">Varian Produk</span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <span className="text-5xl font-serif">{stats?.produksiTahunan || '...'}</span>
+            <span className="text-[10px] uppercase font-bold tracking-widest text-white/50">Produksi Tahunan</span>
+          </div>
         </div>
       </div>
+    </section>
+  );
+};
 
-      <div className="bg-sorgum-primary rounded-[50px] p-12 text-white flex flex-col md:flex-row justify-between gap-12">
-        <div className="flex flex-col gap-2">
-          <span className="text-5xl font-serif">15+</span>
-          <span className="text-[10px] uppercase font-bold tracking-widest text-white/50">Desa Mitra</span>
-        </div>
-        <div className="flex flex-col gap-2">
-          <span className="text-5xl font-serif">500+</span>
-          <span className="text-[10px] uppercase font-bold tracking-widest text-white/50">Petani Terdaftar</span>
-        </div>
-        <div className="flex flex-col gap-2">
-          <span className="text-5xl font-serif">20+</span>
-          <span className="text-[10px] uppercase font-bold tracking-widest text-white/50">Varian Produk</span>
-        </div>
-        <div className="flex flex-col gap-2">
-          <span className="text-5xl font-serif">100t+</span>
-          <span className="text-[10px] uppercase font-bold tracking-widest text-white/50">Produksi Tahunan</span>
-        </div>
-      </div>
-    </div>
-  </section>
-);
+const SectionGallery = ({ setActiveSection }: { setActiveSection: (s: string) => void }) => {
+  const [images, setImages] = useState<{id: number, url: string, alt: string}[]>([]);
 
-const SectionGallery = () => {
-  const images = [
-    "https://images.unsplash.com/photo-1533035353720-f1c6a75cd8ab?q=80&w=2574&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=2574&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1563212891-b3b0d2685609?q=80&w=2574&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1471193945509-9ad0617afabf?q=80&w=2670&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1511979402517-817db4b15093?q=80&w=2670&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1598128558393-70ff22444bb0?q=80&w=2574&auto=format&fit=crop"
-  ];
+  useEffect(() => {
+    fetch('/api/gallery')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) setImages(data.data);
+      })
+      .catch(err => {
+        console.error('Failed to fetch gallery:', err);
+        // Fallback
+        setImages([
+          { id: 1, url: "https://images.unsplash.com/photo-1533035353720-f1c6a75cd8ab?q=80&w=2574&auto=format&fit=crop", alt: "Gallery" },
+          { id: 2, url: "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=2574&auto=format&fit=crop", alt: "Gallery" },
+          { id: 3, url: "https://images.unsplash.com/photo-1563212891-b3b0d2685609?q=80&w=2574&auto=format&fit=crop", alt: "Gallery" },
+        ]);
+      });
+  }, []);
 
   return (
     <section className="py-24 bg-sorgum-light">
@@ -223,51 +265,53 @@ const SectionGallery = () => {
             <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-sorgum-accent mb-4 block">Momen Lapangan</span>
             <h2 className="font-serif text-5xl text-sorgum-primary">Galeri Kehidupan Desa</h2>
           </div>
-          <button className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-sorgum-primary/50 hover:text-sorgum-primary transition-colors">
+          <button 
+            onClick={() => setActiveSection('galeri')}
+            className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-sorgum-primary/50 hover:text-sorgum-primary transition-colors cursor-pointer"
+          >
             Lihat Full Galeri <ChevronRight size={14} />
           </button>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
-          {images.map((img, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ scale: 0.98 }}
-              className={`relative rounded-[40px] overflow-hidden bg-neutral-300 shadow-xl ${i % 3 === 1 ? 'md:translate-y-12' : ''}`}
-            >
-              <img src={img} className="w-full h-full object-cover aspect-[4/5] hover:scale-110 transition-transform duration-700" alt="Gallery" />
-            </motion.div>
-          ))}
-        </div>
+        {images.length === 0 ? (
+          <div className="flex justify-center items-center py-20">
+            <Loader2 className="animate-spin text-sorgum-primary" size={32} />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+            {images.map((img, i) => (
+              <motion.div
+                key={img.id}
+                whileHover={{ scale: 0.98 }}
+                className={`relative rounded-[40px] overflow-hidden bg-neutral-300 shadow-xl ${i % 3 === 1 ? 'md:translate-y-12' : ''}`}
+              >
+                <img src={img.url} className="w-full h-full object-cover aspect-[4/5] hover:scale-110 transition-transform duration-700" alt={img.alt} />
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
 };
 
 const SectionNews = () => {
-  const news = [
-    {
-      date: "12 Mei 2026",
-      category: "Pemberdayaan",
-      title: "Panen Raya Sorgum di Lahan Pasir Pantai Trisik",
-      desc: "Kolaborasi petani lokal berhasil menyulap lahan kering menjadi lumbung pangan baru.",
-      img: "https://images.unsplash.com/photo-1615810757271-92fd5896a25b?q=80&w=2574&auto=format&fit=crop"
-    },
-    {
-      date: "05 Mei 2026",
-      category: "Inovasi",
-      title: "Tepung Sorgum Bebas Gluten Kini Masuk Rantai Minimarket",
-      desc: "Langkah besar membawa produk hilir desa ke pasar konsumen perkotaan.",
-      img: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=2670&auto=format&fit=crop"
-    },
-    {
-      date: "28 April 2026",
-      category: "Event",
-      title: "Pelatihan Budidaya Sorgum Organik Batch ke-10",
-      desc: "Antusiasme generasi muda desa mulai meningkat dalam mengolah lahan tidur.",
-      img: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=2670&auto=format&fit=crop"
-    }
-  ];
+  const [news, setNews] = useState<{id: number, date: string, category: string, title: string, desc: string, img: string}[]>([]);
+
+  useEffect(() => {
+    fetch('/api/news')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) setNews(data.data);
+      })
+      .catch(err => {
+        console.error('Failed to fetch news:', err);
+        // Fallback
+        setNews([
+          { id: 1, date: "12 Mei 2026", category: "Pemberdayaan", title: "Panen Raya Sorgum", desc: "Kolaborasi petani lokal berhasil.", img: "https://images.unsplash.com/photo-1615810757271-92fd5896a25b?q=80&w=2574&auto=format&fit=crop" },
+        ]);
+      });
+  }, []);
 
   return (
     <section className="py-24 bg-white">
@@ -277,86 +321,188 @@ const SectionNews = () => {
           <h2 className="font-serif text-5xl text-sorgum-primary italic">Berita Sorgum Indonesia</h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {news.map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="group cursor-pointer"
-            >
-              <div className="aspect-video bg-neutral-100 rounded-[30px] overflow-hidden mb-6">
-                <img src={item.img} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="News" />
-              </div>
-              <div className="flex items-center gap-4 mb-4">
-                <span className="text-[9px] uppercase font-bold tracking-widest text-sorgum-accent">{item.category}</span>
-                <span className="w-1 h-1 bg-neutral-200 rounded-full"></span>
-                <span className="text-[9px] uppercase font-bold tracking-widest text-neutral-400">{item.date}</span>
-              </div>
-              <h3 className="font-serif text-2xl text-sorgum-primary mb-3 group-hover:text-sorgum-accent transition-colors leading-tight">{item.title}</h3>
-              <p className="text-sm text-neutral-500 font-light line-clamp-2">{item.desc}</p>
-            </motion.div>
-          ))}
-        </div>
+        {news.length === 0 ? (
+          <div className="flex justify-center items-center py-20">
+            <Loader2 className="animate-spin text-sorgum-primary" size={32} />
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-8">
+            {news.map((item, i) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group cursor-pointer"
+              >
+                <div className="aspect-video bg-neutral-100 rounded-[30px] overflow-hidden mb-6">
+                  <img src={item.img} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="News" />
+                </div>
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="text-[9px] uppercase font-bold tracking-widest text-sorgum-accent">{item.category}</span>
+                  <span className="w-1 h-1 bg-neutral-200 rounded-full"></span>
+                  <span className="text-[9px] uppercase font-bold tracking-widest text-neutral-400">{item.date}</span>
+                </div>
+                <h3 className="font-serif text-2xl text-sorgum-primary mb-3 group-hover:text-sorgum-accent transition-colors leading-tight">{item.title}</h3>
+                <p className="text-sm text-neutral-500 font-light line-clamp-2">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
 };
 
-const SectionContact = () => (
-  <section className="py-24 bg-sorgum-primary text-white">
-    <div className="max-w-7xl mx-auto px-6">
-      <div className="grid lg:grid-cols-2 gap-16 items-start">
-        <div>
-          <span className="text-[10px] uppercase tracking-[0.4em] text-sorgum-accent mb-6 block font-bold">Terhubung</span>
-          <h2 className="font-serif text-6xl mb-10 italic">Mari Berkolaborasi Untuk Desa</h2>
-          <p className="text-white/60 mb-12 max-w-md font-light leading-relaxed">
-            Apakah Anda seorang petani yang ingin bergabung, investor yang tertarik pada dampak sosial, atau konsumen yang peduli kesehatan? Ruang ini terbuka lebar.
-          </p>
-          
-          <div className="space-y-6">
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center"><MapPin size={18} /></div>
-              <span className="text-sm text-white/80">Kabupaten Bantul, Yogyakarta, Indonesia</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center"><Phone size={18} /></div>
-              <span className="text-sm text-white/80">+62 821-2345-6789</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center"><Mail size={18} /></div>
-              <span className="text-sm text-white/80">halo@kampungsorgum.com</span>
+const SectionContact = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [statusMessage, setStatusMessage] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus('success');
+        setStatusMessage(data.message);
+        setFormData({ name: '', email: '', message: '' });
+        // Reset status after 5 seconds
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        setStatus('error');
+        setStatusMessage(data.message);
+        setTimeout(() => setStatus('idle'), 4000);
+      }
+    } catch (err) {
+      setStatus('error');
+      setStatusMessage('Gagal mengirim pesan. Periksa koneksi Anda.');
+      setTimeout(() => setStatus('idle'), 4000);
+    }
+  };
+
+  return (
+    <section className="py-24 bg-sorgum-primary text-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          <div>
+            <span className="text-[10px] uppercase tracking-[0.4em] text-sorgum-accent mb-6 block font-bold">Terhubung</span>
+            <h2 className="font-serif text-6xl mb-10 italic">Mari Berkolaborasi Untuk Desa</h2>
+            <p className="text-white/60 mb-12 max-w-md font-light leading-relaxed">
+              Apakah Anda seorang petani yang ingin bergabung, investor yang tertarik pada dampak sosial, atau konsumen yang peduli kesehatan? Ruang ini terbuka lebar.
+            </p>
+            
+            <div className="space-y-6">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center"><MapPin size={18} /></div>
+                <span className="text-sm text-white/80">Kabupaten Bantul, Yogyakarta, Indonesia</span>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center"><Phone size={18} /></div>
+                <span className="text-sm text-white/80">+62 821-2345-6789</span>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center"><Mail size={18} /></div>
+                <span className="text-sm text-white/80">halo@kampungsorgum.com</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="bg-white p-12 rounded-[50px] shadow-2xl">
-          <form className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="text-[10px] uppercase font-bold text-neutral-400 tracking-widest pl-2">Nama Lengkap</label>
-                <input type="text" className="w-full bg-neutral-50 border-none rounded-2xl p-4 text-neutral-800 text-sm focus:ring-2 focus:ring-sorgum-accent" />
+          <div className="bg-white p-12 rounded-[50px] shadow-2xl">
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase font-bold text-neutral-400 tracking-widest pl-2">Nama Lengkap</label>
+                  <input 
+                    type="text" 
+                    value={formData.name}
+                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                    className="w-full bg-neutral-50 border-none rounded-2xl p-4 text-neutral-800 text-sm focus:ring-2 focus:ring-sorgum-accent" 
+                    placeholder="Masukkan nama Anda"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase font-bold text-neutral-400 tracking-widest pl-2">Email</label>
+                  <input 
+                    type="email" 
+                    value={formData.email}
+                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                    className="w-full bg-neutral-50 border-none rounded-2xl p-4 text-neutral-800 text-sm focus:ring-2 focus:ring-sorgum-accent" 
+                    placeholder="email@contoh.com"
+                    required
+                  />
+                </div>
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] uppercase font-bold text-neutral-400 tracking-widest pl-2">Email</label>
-                <input type="email" className="w-full bg-neutral-50 border-none rounded-2xl p-4 text-neutral-800 text-sm focus:ring-2 focus:ring-sorgum-accent" />
+                <label className="text-[10px] uppercase font-bold text-neutral-400 tracking-widest pl-2">Pesan Anda</label>
+                <textarea 
+                  rows={4} 
+                  value={formData.message}
+                  onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                  className="w-full bg-neutral-50 border-none rounded-2xl p-4 text-neutral-800 text-sm focus:ring-2 focus:ring-sorgum-accent" 
+                  placeholder="Tuliskan pesan Anda..."
+                  required
+                />
               </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase font-bold text-neutral-400 tracking-widest pl-2">Pesan Anda</label>
-              <textarea rows={4} className="w-full bg-neutral-50 border-none rounded-2xl p-4 text-neutral-800 text-sm focus:ring-2 focus:ring-sorgum-accent" />
-            </div>
-            <button className="w-full bg-sorgum-primary text-white py-4 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-neutral-800 transition-colors shadow-lg shadow-sorgum-primary/10">
-              Kirim Pesan Sekarang
-            </button>
-          </form>
+
+              {/* Status Message */}
+              <AnimatePresence>
+                {status === 'success' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-2xl"
+                  >
+                    <CheckCircle size={20} className="text-green-600 shrink-0" />
+                    <span className="text-sm text-green-800">{statusMessage}</span>
+                  </motion.div>
+                )}
+                {status === 'error' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-2xl"
+                  >
+                    <AlertCircle size={20} className="text-red-600 shrink-0" />
+                    <span className="text-sm text-red-800">{statusMessage}</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <button 
+                type="submit"
+                disabled={status === 'loading'}
+                className="w-full bg-sorgum-primary text-white py-4 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-neutral-800 transition-colors shadow-lg shadow-sorgum-primary/10 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+              >
+                {status === 'loading' ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    Mengirim...
+                  </>
+                ) : (
+                  'Kirim Pesan Sekarang'
+                )}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('beranda');
@@ -383,9 +529,9 @@ export default function App() {
       <Navbar activeSection={activeSection} setActiveSection={setActiveSection} />
       
       <main>
-        <div id="beranda"><SectionHome /></div>
+        <div id="beranda"><SectionHome setActiveSection={setActiveSection} /></div>
         <div id="profil"><SectionProfile /></div>
-        <div id="galeri"><SectionGallery /></div>
+        <div id="galeri"><SectionGallery setActiveSection={setActiveSection} /></div>
         <div id="berita"><SectionNews /></div>
         <div id="kontak"><SectionContact /></div>
       </main>
@@ -397,9 +543,9 @@ export default function App() {
             <span className="font-serif text-xl font-bold text-sorgum-primary">Kampung Sorgum</span>
           </div>
           <div className="flex gap-8">
-            <Instagram size={20} className="text-sorgum-primary/40 hover:text-sorgum-primary transition-colors cursor-pointer" />
-            <Facebook size={20} className="text-sorgum-primary/40 hover:text-sorgum-primary transition-colors cursor-pointer" />
-            <Mail size={20} className="text-sorgum-primary/40 hover:text-sorgum-primary transition-colors cursor-pointer" />
+            <Instagram size={20} className="text-sorgum-primary/40 hover:text-sorgum-primary transition-colors cursor-pointer" onClick={() => window.open('https://instagram.com', '_blank')} />
+            <Facebook size={20} className="text-sorgum-primary/40 hover:text-sorgum-primary transition-colors cursor-pointer" onClick={() => window.open('https://facebook.com', '_blank')} />
+            <Mail size={20} className="text-sorgum-primary/40 hover:text-sorgum-primary transition-colors cursor-pointer" onClick={() => setActiveSection('kontak')} />
           </div>
           <p className="text-[9px] uppercase font-bold tracking-widest text-neutral-400">
             © 2026 Inisiatif Kampung Sorgum • Bagian Dari Kolabfit Indonesia

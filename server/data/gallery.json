@@ -1,32 +1,32 @@
 [
   {
     "id": 1,
-    "url": "https://images.unsplash.com/photo-1533035353720-f1c6a75cd8ab?q=80&w=2574&auto=format&fit=crop",
-    "alt": "Sorghum Field"
+    "url": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2574&auto=format&fit=crop",
+    "alt": "Ladang Sorgum Subur"
   },
   {
     "id": 2,
-    "url": "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=2574&auto=format&fit=crop",
-    "alt": "Local Market"
+    "url": "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?q=80&w=2574&auto=format&fit=crop",
+    "alt": "Pasar Tradisional"
   },
   {
     "id": 3,
-    "url": "https://images.unsplash.com/photo-1563212891-b3b0d2685609?q=80&w=2574&auto=format&fit=crop",
-    "alt": "Harvest Season"
+    "url": "https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=2574&auto=format&fit=crop",
+    "alt": "Musim Panen"
   },
   {
     "id": 4,
-    "url": "https://images.unsplash.com/photo-1471193945509-9ad0617afabf?q=80&w=2670&auto=format&fit=crop",
-    "alt": "Farm Life"
+    "url": "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=2670&auto=format&fit=crop",
+    "alt": "Kehidupan Tani"
   },
   {
     "id": 5,
-    "url": "https://images.unsplash.com/photo-1511979402517-817db4b15093?q=80&w=2670&auto=format&fit=crop",
-    "alt": "Village Activity"
+    "url": "https://images.unsplash.com/photo-1596464716127-f2a82984de30?q=80&w=2670&auto=format&fit=crop",
+    "alt": "Aktivitas Desa"
   },
   {
     "id": 6,
-    "url": "https://images.unsplash.com/photo-1598128558393-70ff22444bb0?q=80&w=2574&auto=format&fit=crop",
-    "alt": "Community Work"
+    "url": "https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=2574&auto=format&fit=crop",
+    "alt": "Gotong Royong"
   }
 ]

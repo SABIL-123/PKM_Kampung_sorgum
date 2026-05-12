@@ -24,7 +24,7 @@ import {
 
 // --- Components ---
 
-const Navbar = ({ activeSection, setActiveSection }: { activeSection: string, setActiveSection: (s: string) => void }) => {
+const Navbar = ({ activeSection, setActiveSection, setCurrentPage }: { activeSection: string, setActiveSection: (s: string) => void, setCurrentPage: (p: string) => void }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -47,7 +47,7 @@ const Navbar = ({ activeSection, setActiveSection }: { activeSection: string, se
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <div 
           className="flex items-center gap-2 cursor-pointer group"
-          onClick={() => setActiveSection('beranda')}
+          onClick={() => { setCurrentPage('main'); setActiveSection('beranda'); }}
         >
           <div className="w-10 h-10 bg-sorgum-primary rounded-full flex items-center justify-center text-white group-hover:rotate-12 transition-transform">
             <Sprout size={20} />
@@ -59,7 +59,7 @@ const Navbar = ({ activeSection, setActiveSection }: { activeSection: string, se
           {menuItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => setActiveSection(item.id)}
+              onClick={() => { setCurrentPage('main'); setActiveSection(item.id); }}
               className={`text-[10px] uppercase tracking-[0.2em] font-bold transition-colors ${
                 activeSection === item.id ? 'text-sorgum-primary' : 'text-sorgum-primary/50 hover:text-sorgum-primary'
               }`}
@@ -68,7 +68,7 @@ const Navbar = ({ activeSection, setActiveSection }: { activeSection: string, se
             </button>
           ))}
           <button 
-            onClick={() => setActiveSection('kontak')}
+            onClick={() => setCurrentPage('partner')}
             className="bg-sorgum-primary text-white px-6 py-2.5 rounded-full text-[10px] uppercase tracking-widest font-bold hover:scale-105 transition-all shadow-lg shadow-sorgum-primary/20 cursor-pointer"
           >
             Gabung Mitra
@@ -94,14 +94,14 @@ const Navbar = ({ activeSection, setActiveSection }: { activeSection: string, se
             {menuItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => { setActiveSection(item.id); setIsMenuOpen(false); }}
+                onClick={() => { setCurrentPage('main'); setActiveSection(item.id); setIsMenuOpen(false); }}
                 className="text-white text-4xl font-serif italic hover:translate-x-4 transition-transform"
               >
                 {item.label}
               </button>
             ))}
             <button 
-              onClick={() => { setActiveSection('kontak'); setIsMenuOpen(false); }}
+              onClick={() => { setCurrentPage('partner'); setIsMenuOpen(false); }}
               className="mt-4 bg-white text-sorgum-primary px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:scale-105 transition-all shadow-xl"
             >
               Gabung Mitra
@@ -153,13 +153,6 @@ const SectionHome = ({ setActiveSection }: { setActiveSection: (s: string) => vo
           />
           <div className="absolute inset-0 bg-gradient-to-t from-sorgum-primary/40 to-transparent"></div>
         </motion.div>
-        <div className="absolute -bottom-8 -left-8 bg-white p-6 rounded-3xl shadow-xl border border-neutral-100 max-w-xs">
-          <p className="text-xs font-serif italic text-neutral-600 mb-2">"Sorgum adalah solusi nyata untuk tanah kering dan ketahanan pangan nasional."</p>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-sorgum-accent rounded-full"></div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Tim Riset Kolabfit</span>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -209,8 +202,8 @@ const SectionProfile = () => {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?q=80&w=2670&auto=format&fit=crop" className="rounded-3xl h-64 w-full object-cover shadow-lg" alt="Team" />
-            <img src="https://images.unsplash.com/photo-1594488311340-4284d72f1074?q=80&w=2670&auto=format&fit=crop" className="translate-y-12 rounded-3xl h-64 w-full object-cover shadow-lg" alt="Field" />
+            <img src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?q=80&w=2670&auto=format&fit=crop" className="rounded-3xl h-64 w-full object-cover shadow-lg" alt="Team" />
+            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2670&auto=format&fit=crop" className="translate-y-12 rounded-3xl h-64 w-full object-cover shadow-lg" alt="Field" />
           </div>
         </div>
 
@@ -504,8 +497,134 @@ const SectionContact = () => {
   );
 };
 
+const SectionPartnerForm = ({ onBack }: { onBack: () => void }) => {
+  const [formData, setFormData] = useState({ name: '', business: '', type: 'Petani', location: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    setTimeout(() => {
+      setStatus('success');
+      setFormData({ name: '', business: '', type: 'Petani', location: '', message: '' });
+    }, 2000);
+  };
+
+  return (
+    <motion.section 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="min-h-screen pt-32 pb-20 bg-white"
+    >
+      <div className="max-w-4xl mx-auto px-6">
+        <button 
+          onClick={onBack}
+          className="flex items-center gap-2 text-sorgum-primary/50 hover:text-sorgum-primary mb-12 transition-colors group"
+        >
+          <ArrowRight className="rotate-180 group-hover:-translate-x-2 transition-transform" size={18} />
+          <span className="text-[10px] uppercase font-bold tracking-widest">Kembali ke Beranda</span>
+        </button>
+
+        <div className="mb-16">
+          <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-sorgum-accent mb-4 block">Formulir Kemitraan</span>
+          <h2 className="font-serif text-6xl text-sorgum-primary italic mb-6">Wujudkan Kedaulatan Pangan Bersama Kami</h2>
+          <p className="text-neutral-500 font-light max-w-2xl leading-relaxed">
+            Bergabunglah dalam ekosistem Kampung Sorgum untuk menciptakan dampak ekonomi dan sosial yang berkelanjutan bagi masyarakat pedesaan Indonesia.
+          </p>
+        </div>
+
+        <div className="bg-sorgum-light/50 p-12 rounded-[50px] border border-sorgum-primary/5 shadow-sm">
+          <form className="space-y-8" onSubmit={handleSubmit}>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase font-bold text-neutral-400 tracking-widest pl-2">Nama Lengkap</label>
+                <input 
+                  type="text" 
+                  value={formData.name}
+                  onChange={(e) => setFormData(p => ({ ...p, name: e.target.value }))}
+                  className="w-full bg-white border-none rounded-2xl p-4 text-sm focus:ring-2 focus:ring-sorgum-accent" 
+                  placeholder="Nama Penanggung Jawab"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase font-bold text-neutral-400 tracking-widest pl-2">Nama Bisnis / Instansi</label>
+                <input 
+                  type="text" 
+                  value={formData.business}
+                  onChange={(e) => setFormData(p => ({ ...p, business: e.target.value }))}
+                  className="w-full bg-white border-none rounded-2xl p-4 text-sm focus:ring-2 focus:ring-sorgum-accent" 
+                  placeholder="KWT Melati / CV / PT / Kelompok Tani"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase font-bold text-neutral-400 tracking-widest pl-2">Jenis Kemitraan</label>
+                <select 
+                  value={formData.type}
+                  onChange={(e) => setFormData(p => ({ ...p, type: e.target.value }))}
+                  className="w-full bg-white border-none rounded-2xl p-4 text-sm focus:ring-2 focus:ring-sorgum-accent appearance-none"
+                >
+                  <option>Petani / Kelompok Tani</option>
+                  <option>Investor / Pendanaan</option>
+                  <option>Distributor / Retail</option>
+                  <option>Edukasi / Riset</option>
+                  <option>Lainnya</option>
+                </select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase font-bold text-neutral-400 tracking-widest pl-2">Lokasi Operasional</label>
+                <input 
+                  type="text" 
+                  value={formData.location}
+                  onChange={(e) => setFormData(p => ({ ...p, location: e.target.value }))}
+                  className="w-full bg-white border-none rounded-2xl p-4 text-sm focus:ring-2 focus:ring-sorgum-accent" 
+                  placeholder="Kota / Kabupaten"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase font-bold text-neutral-400 tracking-widest pl-2">Visi / Rencana Kemitraan</label>
+              <textarea 
+                rows={4} 
+                value={formData.message}
+                onChange={(e) => setFormData(p => ({ ...p, message: e.target.value }))}
+                className="w-full bg-white border-none rounded-2xl p-4 text-sm focus:ring-2 focus:ring-sorgum-accent" 
+                placeholder="Ceritakan singkat bagaimana Anda ingin berkolaborasi..."
+                required
+              />
+            </div>
+
+            <AnimatePresence>
+              {status === 'success' && (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 bg-green-50 text-green-700 rounded-2xl text-sm flex items-center gap-3">
+                  <CheckCircle size={18} /> Permohonan berhasil dikirim. Tim kami akan segera menghubungi Anda.
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <button 
+              type="submit"
+              disabled={status === 'loading'}
+              className="w-full bg-sorgum-primary text-white py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-neutral-800 transition-all shadow-xl shadow-sorgum-primary/10 disabled:opacity-50"
+            >
+              {status === 'loading' ? 'Memproses...' : 'Kirim Permohonan Kemitraan'}
+            </button>
+          </form>
+        </div>
+      </div>
+    </motion.section>
+  );
+};
+
 export default function App() {
   const [activeSection, setActiveSection] = useState('beranda');
+  const [currentPage, setCurrentPage] = useState('main'); // 'main' or 'partner'
 
   // Scroll to section logic
   useEffect(() => {
@@ -526,14 +645,20 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-sorgum-light text-neutral-800 font-sans selection:bg-sorgum-accent selection:text-white">
-      <Navbar activeSection={activeSection} setActiveSection={setActiveSection} />
+      <Navbar activeSection={activeSection} setActiveSection={setActiveSection} setCurrentPage={setCurrentPage} />
       
       <main>
-        <div id="beranda"><SectionHome setActiveSection={setActiveSection} /></div>
-        <div id="profil"><SectionProfile /></div>
-        <div id="galeri"><SectionGallery setActiveSection={setActiveSection} /></div>
-        <div id="berita"><SectionNews /></div>
-        <div id="kontak"><SectionContact /></div>
+        {currentPage === 'main' ? (
+          <>
+            <div id="beranda"><SectionHome setActiveSection={setActiveSection} /></div>
+            <div id="profil"><SectionProfile /></div>
+            <div id="galeri"><SectionGallery setActiveSection={setActiveSection} /></div>
+            <div id="berita"><SectionNews /></div>
+            <div id="kontak"><SectionContact /></div>
+          </>
+        ) : (
+          <SectionPartnerForm onBack={() => setCurrentPage('main')} />
+        )}
       </main>
 
       <footer className="py-12 bg-sorgum-light border-t border-sorgum-primary/5">

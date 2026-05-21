@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Gallery from './pages/Gallery';
 import News from './pages/News';
+import NewsDetail from './pages/NewsDetail';
 import Contact from './pages/Contact';
 import PartnerForm from './pages/PartnerForm';
 
@@ -21,7 +22,7 @@ const AnimatedRoutes = ({ cmsPages, cmsPosts, waNumber, isLoading }: any) => {
   const location = useLocation();
 
   const getPageData = (slug: string) => {
-    const page = cmsPages.find((p: any) => p.slug === slug);
+    const page = cmsPages.find((p: any) => p.slug === slug && p.status === 'published');
     return page;
   };
 
@@ -33,35 +34,60 @@ const AnimatedRoutes = ({ cmsPages, cmsPosts, waNumber, isLoading }: any) => {
     <AnimatePresence mode="wait">
       {/* @ts-ignore - React Router v6 Routes accepts key for AnimatePresence */}
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
-            <Home pageData={getPageData('beranda')} />
-          </motion.div>
-        } />
-        <Route path="/profil" element={
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
-            <Profile pageData={getPageData('profil')} />
-          </motion.div>
-        } />
-        <Route path="/galeri" element={
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
-            <Gallery pageData={getPageData('galeri')} />
-          </motion.div>
-        } />
-        <Route path="/berita" element={
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
-            <News pageData={getPageData('berita')} cmsPosts={cmsPosts} />
-          </motion.div>
-        } />
-        <Route path="/hubungi-kami" element={
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
-            <Contact pageData={getPageData('hubungi-kami')} waNumber={waNumber} />
-          </motion.div>
-        } />
-        <Route path="/gabung-mitra" element={
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-            <PartnerForm pageData={getPageData('gabung-mitra')} waNumber={waNumber} />
-          </motion.div>
+        {getPageData('beranda') && (
+          <Route path="/" element={
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
+              <Home pageData={getPageData('beranda')} />
+            </motion.div>
+          } />
+        )}
+        {getPageData('profil') && (
+          <Route path="/profil" element={
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
+              <Profile pageData={getPageData('profil')} />
+            </motion.div>
+          } />
+        )}
+        {getPageData('galeri') && (
+          <Route path="/galeri" element={
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
+              <Gallery pageData={getPageData('galeri')} />
+            </motion.div>
+          } />
+        )}
+        {getPageData('berita') && (
+          <>
+            <Route path="/berita" element={
+              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
+                <News pageData={getPageData('berita')} cmsPosts={cmsPosts} />
+              </motion.div>
+            } />
+            <Route path="/berita/:slug" element={
+              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
+                <NewsDetail cmsPosts={cmsPosts} />
+              </motion.div>
+            } />
+          </>
+        )}
+        {getPageData('hubungi-kami') && (
+          <Route path="/hubungi-kami" element={
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
+              <Contact pageData={getPageData('hubungi-kami')} waNumber={waNumber} />
+            </motion.div>
+          } />
+        )}
+        {getPageData('gabung-mitra') && (
+          <Route path="/gabung-mitra" element={
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <PartnerForm pageData={getPageData('gabung-mitra')} waNumber={waNumber} />
+            </motion.div>
+          } />
+        )}
+        <Route path="*" element={
+          <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-6">
+            <h2 className="text-4xl font-serif text-sorgum-primary italic mb-4">Halaman Tidak Ditemukan</h2>
+            <p className="text-neutral-500">Halaman yang Anda cari mungkin telah dinonaktifkan atau dihapus.</p>
+          </div>
         } />
       </Routes>
     </AnimatePresence>
@@ -130,7 +156,7 @@ const AppContent = () => {
 
   return (
     <div className="min-h-screen bg-sorgum-light text-neutral-800 font-sans selection:bg-sorgum-accent selection:text-white">
-      <Navbar />
+      <Navbar cmsPages={cmsPages} isLoading={isLoading} />
       <main className="pt-20">
         <AnimatedRoutes 
           cmsPages={cmsPages} 

@@ -54,8 +54,8 @@ const Profile = ({ pageData }: { pageData?: any }) => {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <img src={galleryData?.images?.[0]?.url || "https://images.unsplash.com/photo-1574943320219-553eb213f72d?q=80&w=2670&auto=format&fit=crop"} className="rounded-3xl h-64 w-full object-cover shadow-lg" alt="Team" />
-            <img src={galleryData?.images?.[1]?.url || "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2670&auto=format&fit=crop"} className="translate-y-12 rounded-3xl h-64 w-full object-cover shadow-lg" alt="Field" />
+            <img src={galleryData?.images?.[0]?.url || "https://images.unsplash.com/photo-1574943320219-553eb213f72d?q=80&w=2670&auto=format&fit=crop"} referrerPolicy="no-referrer" className="rounded-3xl h-64 w-full object-cover shadow-lg" alt="Team" />
+            <img src={galleryData?.images?.[1]?.url || "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2670&auto=format&fit=crop"} referrerPolicy="no-referrer" className="translate-y-12 rounded-3xl h-64 w-full object-cover shadow-lg" alt="Field" />
           </div>
         </div>
 

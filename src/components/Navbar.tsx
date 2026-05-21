@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Sprout, Menu, X } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ cmsPages = [], isLoading = false }: { cmsPages?: any[], isLoading?: boolean }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -15,13 +15,15 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const menuItems = [
-    { id: '/', label: 'Beranda' },
-    { id: '/profil', label: 'Profil' },
-    { id: '/galeri', label: 'Galeri' },
-    { id: '/berita', label: 'Berita' },
-    { id: '/hubungi-kami', label: 'Hubungi Kami' },
-  ];
+  const menuItems = cmsPages
+    .filter((p: any) => p.status === 'published' && (p.is_in_navbar === 1 || p.is_in_navbar === true) && p.slug !== 'gabung-mitra' && p.slug !== 'kontak')
+    .sort((a: any, b: any) => a.priority - b.priority)
+    .map((p: any) => ({
+      id: p.slug === 'beranda' ? '/' : `/${p.slug}`,
+      label: p.title
+    }));
+    
+  const showGabungMitra = cmsPages.some((p: any) => p.slug === 'gabung-mitra' && p.status === 'published' && (p.is_in_navbar === 1 || p.is_in_navbar === true));
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-sorgum-light/90 backdrop-blur-md py-3 border-b border-sorgum-primary/10' : 'bg-transparent py-6'}`}>
@@ -48,12 +50,14 @@ const Navbar = () => {
               {item.label}
             </Link>
           ))}
-          <Link 
-            to="/gabung-mitra"
-            className="bg-sorgum-primary text-white px-6 py-2.5 rounded-full text-[10px] uppercase tracking-widest font-bold hover:scale-105 transition-all shadow-lg shadow-sorgum-primary/20 cursor-pointer"
-          >
-            Gabung Mitra
-          </Link>
+          {showGabungMitra && (
+            <Link 
+              to="/gabung-mitra"
+              className="bg-sorgum-primary text-white px-6 py-2.5 rounded-full text-[10px] uppercase tracking-widest font-bold hover:scale-105 transition-all shadow-lg shadow-sorgum-primary/20 cursor-pointer"
+            >
+              Gabung Mitra
+            </Link>
+          )}
         </div>
 
         <button className="md:hidden text-sorgum-primary" onClick={() => setIsMenuOpen(true)}>
@@ -67,9 +71,9 @@ const Navbar = () => {
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            className="fixed inset-0 bg-sorgum-primary z-50 p-10 flex flex-col items-center justify-center gap-8"
+            className="fixed inset-0 bg-sorgum-primary z-50 p-10 flex flex-col items-center justify-start overflow-y-auto gap-8 pt-32 pb-12"
           >
-            <button className="absolute top-10 right-10 text-white" onClick={() => setIsMenuOpen(false)}>
+            <button className="absolute top-10 right-10 text-white z-10" onClick={() => setIsMenuOpen(false)}>
               <X size={32} />
             </button>
             {menuItems.map((item) => (
@@ -77,18 +81,20 @@ const Navbar = () => {
                 key={item.id}
                 to={item.id}
                 onClick={() => setIsMenuOpen(false)}
-                className="text-white text-4xl font-serif italic hover:translate-x-4 transition-transform"
+                className="text-white text-4xl font-serif italic hover:translate-x-4 transition-transform shrink-0"
               >
                 {item.label}
               </Link>
             ))}
-            <Link 
-              to="/gabung-mitra"
-              onClick={() => setIsMenuOpen(false)}
-              className="mt-4 bg-white text-sorgum-primary px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:scale-105 transition-all shadow-xl"
-            >
-              Gabung Mitra
-            </Link>
+            {showGabungMitra && (
+              <Link 
+                to="/gabung-mitra"
+                onClick={() => setIsMenuOpen(false)}
+                className="mt-4 bg-white text-sorgum-primary px-8 py-4 rounded-full text-xs uppercase tracking-widest font-bold hover:scale-105 transition-all shadow-xl shrink-0"
+              >
+                Gabung Mitra
+              </Link>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

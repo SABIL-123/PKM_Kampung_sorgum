@@ -1,12 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 @theme {
   --font-serif: "Cormorant Garamond", serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --color-sorgum-primary: #5A5A40;
-  --color-sorgum-light: #f5f5f0;
-  --color-sorgum-accent: #D4A373;
+  --color-sorgum-primary: #233847;
+  --color-sorgum-light: #FBF9F4;
+  --color-sorgum-accent: #D48D1D;
 }
 
 @layer base {
@@ -53,3 +55,80 @@
   font-weight: 700;
   color: var(--color-sorgum-primary);
 }
+
+/* ==========================================
+   DYNAMIC DARK MODE (THEME MALAM) STYLING
+   ========================================== */
+.dark {
+  color-scheme: dark;
+  --color-sorgum-primary: #F1F5F9;
+  --color-sorgum-light: #121E26;
+  --color-sorgum-accent: #F5B82A;
+}
+
+.dark body {
+  @apply text-slate-200 bg-sorgum-light;
+}
+
+/* Neutral text color smooth replacements */
+.dark p, .dark .text-neutral-500, .dark .text-neutral-600, .dark .text-neutral-700 {
+  color: #94A3B8 !important;
+}
+
+/* Card components deep dark navy tint replacements */
+.dark .bg-white {
+  background-color: #172530 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #F1F5F9 !important;
+}
+
+/* Input search and filtering controls overrides */
+.dark input {
+  background-color: #121E26 !important;
+  color: #F1F5F9 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark input::placeholder {
+  color: #475569 !important;
+}
+
+.dark .bg-sorgum-light\/60 {
+  background-color: rgba(18, 30, 38, 0.6) !important;
+}
+
+.dark .bg-sorgum-light\/80 {
+  background-color: rgba(18, 30, 38, 0.8) !important;
+}
+
+/* Borders and transparent containers refinements */
+.dark .border-sorgum-primary\/5, 
+.dark .border-t, 
+.dark .border-b, 
+.dark .border-sorgum-primary\/10 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.dark .bg-sorgum-primary\/5 {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+.dark .bg-sorgum-primary\/10 {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.dark .text-neutral-400 {
+  color: #64748B !important;
+}
+
+/* Rich Text article overrides */
+.dark .news-body {
+  color: #CBD5E1 !important;
+}
+
+.dark .news-body h2, 
+.dark .news-body h3, 
+.dark .news-body strong {
+  color: var(--color-sorgum-primary) !important;
+}
+

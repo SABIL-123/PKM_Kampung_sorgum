@@ -62,7 +62,7 @@
                 "id": "1778833999258cc5b21q",
                 "type": "rich-text",
                 "data": {
-                    "content": "<p>Berawal&nbsp;dari&nbsp;kepedulian&nbsp;terhadap&nbsp;lahan&nbsp;marginal&nbsp;di&nbsp;pesisir&nbsp;dan&nbsp;wilayah&nbsp;kering,&nbsp;Kampung&nbsp;Sorgum&nbsp;lahir&nbsp;sebagai&nbsp;jembatan&nbsp;antara&nbsp;teknologi&nbsp;pertanian&nbsp;modern&nbsp;dengan&nbsp;kearifan&nbsp;lokal&nbsp;petani&nbsp;Nusantara.</p>"
+                    "content": "<p>Berawal dari kepedulian terhadap lahan marginal di pesisir dan wilayah kering, Kampung Sorgum lahir sebagai jembatan antara teknologi pertanian modern dengan kearifan lokal petani Nusantara.</p>"
                 }
             },
             {
@@ -103,7 +103,7 @@
         "status": "published",
         "author_id": null,
         "created_at": "2026-05-15T08:36:43.000Z",
-        "updated_at": "2026-05-15T08:36:43.000Z",
+        "updated_at": "2026-05-16T09:19:10.000Z",
         "is_in_navbar": 1,
         "priority": 2,
         "is_contact_form_active": true
@@ -232,68 +232,17 @@
                 }
             },
             {
-                "id": "1778835940390sxzwv5t",
-                "type": "gallery",
+                "id": "1778921201062xdjo0if",
+                "type": "dynamic-post-feed",
                 "data": {
-                    "title": "Panen Raya Sorgum di Lahan Pasir Pantai Trisik",
-                    "subtitle": "Kolaborasi petani lokal berhasil menyulap lahan kering menjadi lumbung pangan baru.",
-                    "images": [
-                        {
-                            "url": "https://drive.google.com/thumbnail?id=1A4pcMRuNQLP-6u8NMHH8pF2Ur1oYmewF&sz=w1200",
-                            "caption": null,
-                            "alt_text": null,
-                            "category": null,
-                            "image_title": null,
-                            "description": null,
-                            "location": null,
-                            "time": null,
-                            "button_label": null,
-                            "button_url": null
-                        }
-                    ]
-                }
-            },
-            {
-                "id": "1778836672588vdvq22h",
-                "type": "gallery",
-                "data": {
-                    "title": "Tepung Sorgum Bebas Gluten Kini Masuk Rantai Minimarket",
-                    "subtitle": "Langkah besar membawa produk hilir desa ke pasar konsumen perkotaan.",
-                    "images": [
-                        {
-                            "url": "https://drive.google.com/thumbnail?id=1X8QsAYERWd_g1m717t84hmEEFOqQELHm&sz=w1200",
-                            "caption": null,
-                            "alt_text": null,
-                            "category": null,
-                            "image_title": null,
-                            "description": null,
-                            "location": null,
-                            "time": null,
-                            "button_label": null,
-                            "button_url": null
-                        }
-                    ]
-                }
-            },
-            {
-                "id": "1778836708705dsn2zqg",
-                "type": "gallery",
-                "data": {
-                    "title": "Pelatihan Budidaya Sorgum Organik Batch ke-10",
-                    "subtitle": "Antusiasme generasi muda desa mulai meningkat dalam mengolah lahan tidur.",
-                    "images": [
-                        {
-                            "url": "https://drive.google.com/thumbnail?id=1B95OjWhfcPudVoTJzAdAImwhn_BI5cGJ&sz=w1200",
-                            "caption": null,
-                            "alt_text": null,
-                            "category": null,
-                            "image_title": null,
-                            "description": null,
-                            "location": null,
-                            "time": null,
-                            "button_label": null,
-                            "button_url": null
-                        }
+                    "category": "Artikel",
+                    "limit": 3,
+                    "sort_order": "desc",
+                    "selection_mode": "manual",
+                    "selected_post_ids": [
+                        112,
+                        113,
+                        114
                     ]
                 }
             }
@@ -301,7 +250,7 @@
         "status": "published",
         "author_id": null,
         "created_at": "2026-05-15T09:19:43.000Z",
-        "updated_at": "2026-05-15T09:19:43.000Z",
+        "updated_at": "2026-05-16T08:48:12.000Z",
         "is_in_navbar": 1,
         "priority": 4,
         "is_contact_form_active": true
@@ -365,43 +314,46 @@
                     "background_image": "",
                     "stats": []
                 }
-            },
-            {
-                "id": "1778918219150qg3mef2",
-                "type": "profile-tabs",
-                "data": {
-                    "title": "",
-                    "tabs": [
-                        {
-                            "label": "Nama Lengkap",
-                            "content": ""
-                        },
-                        {
-                            "label": "Nama Bisnis / Instansi",
-                            "content": ""
-                        },
-                        {
-                            "label": "Jenis Kemitraan",
-                            "content": ""
-                        },
-                        {
-                            "label": "Lokasi Operasional",
-                            "content": ""
-                        },
-                        {
-                            "label": "Visi / Rencana Kemitraan",
-                            "content": ""
-                        }
-                    ]
-                }
             }
         ],
         "status": "published",
         "author_id": null,
         "created_at": "2026-05-16T07:58:14.000Z",
-        "updated_at": "2026-05-16T07:58:14.000Z",
+        "updated_at": "2026-05-16T08:51:11.000Z",
         "is_in_navbar": 1,
         "priority": 6,
+        "is_contact_form_active": true
+    },
+    {
+        "id": 73,
+        "tenant_id": 15,
+        "title": "kontak",
+        "slug": "kontak",
+        "content": [
+            {
+                "id": "1778923340878qd2xkqs",
+                "type": "contacts",
+                "data": {
+                    "title": null,
+                    "phone_numbers": [
+                        "085265708808"
+                    ],
+                    "emails": [
+                        "rizkyanakagung@gmail.com"
+                    ],
+                    "addresses": [],
+                    "map_location_url": null,
+                    "social_links": [],
+                    "working_hours": null
+                }
+            }
+        ],
+        "status": "published",
+        "author_id": null,
+        "created_at": "2026-05-16T09:23:09.000Z",
+        "updated_at": "2026-05-16T09:23:09.000Z",
+        "is_in_navbar": 1,
+        "priority": 7,
         "is_contact_form_active": true
     }
 ]

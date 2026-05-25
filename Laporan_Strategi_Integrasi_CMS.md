@@ -22,8 +22,10 @@ Pendekatan strategis yang digunakan adalah **Centralized State Fetching**. Darip
 Payload JSON dari Postman berisi struktur halaman berbasis *blocks* (seperti `hero`, `features`, `gallery`, `rich-text`). Berikut adalah strategi pemetaan untuk masing-masing seksi aplikasi:
 
 ### A. Halaman Beranda (`slug: beranda`)
--   **Kebutuhan UI:** Judul Utama (Headline) dan Deskripsi singkat (Sub-headline).
--   **Pemetaan CMS:** Menggunakan *content block* bertipe `hero`. `data.headline` dipisahkan menggunakan *newline* (`\n`) untuk efek tipografi *break-line*, sedangkan `data.sub_headline` menjadi paragraf deskripsi utama.
+-   **Kebutuhan UI:** Judul Utama (Headline), Deskripsi singkat (Sub-headline), Gambar bingkai ganda, dan Bagian Manfaat/Keuntungan Sorgum interaktif.
+-   **Pemetaan CMS:**
+    -   **Hero Block (`type: hero`)**: Mengekstrak `data.headline` (dipisahkan menggunakan *newline* `\n`) dan `data.sub_headline`. Ditambah pemetaan dinamis `data.background_image` untuk bingkai foto ganda di sisi kanan.
+    -   **Benefits Block (`type: features`)**: Sistem secara dinamis mencari *content block* bertipe `features` yang memiliki kata kunci *"Manfaat"* atau *"Keuntungan"* di dalam field `data.title`. Jika blok ini ditemukan di CMS, frontend akan melakukan iterasi atas `data.items` untuk me-render judul, deskripsi, dan ikon bulir manfaat secara real-time. Jika tidak ditemukan, sistem otomatis mengaktifkan *High-Fidelity Safety Fallback* berisi 4 manfaat sorgum lengkap beserta ikon interaktifnya.
 
 ### B. Halaman Profil (`slug: profil`)
 -   **Kebutuhan UI:** Teks hero, Sejarah, Visi, Misi, dan Gambar ilustrasi ganda.

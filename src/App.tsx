@@ -13,6 +13,7 @@ import News from './pages/News';
 import NewsDetail from './pages/NewsDetail';
 import Contact from './pages/Contact';
 import PartnerForm from './pages/PartnerForm';
+import Products from './pages/Products';
 
 const CMS_API_URL = import.meta.env.VITE_CMS_API_LINK;
 const CMS_POSTS_URL = import.meta.env.VITE_CMS_API_POSTS_LINK;
@@ -37,7 +38,7 @@ const AnimatedRoutes = ({ cmsPages, cmsPosts, waNumber, isLoading }: any) => {
         {getPageData('beranda') && (
           <Route path="/" element={
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
-              <Home pageData={getPageData('beranda')} />
+              <Home pageData={getPageData('beranda')} produkPageData={getPageData('produk')} />
             </motion.div>
           } />
         )}
@@ -83,6 +84,11 @@ const AnimatedRoutes = ({ cmsPages, cmsPosts, waNumber, isLoading }: any) => {
             </motion.div>
           } />
         )}
+        <Route path="/produk" element={
+          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
+            <Products pageData={getPageData('produk')} waNumber={waNumber} />
+          </motion.div>
+        } />
         <Route path="*" element={
           <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-6">
             <h2 className="text-4xl font-serif text-sorgum-primary italic mb-4">Halaman Tidak Ditemukan</h2>
@@ -165,7 +171,7 @@ const AppContent = () => {
           isLoading={isLoading} 
         />
       </main>
-      <Footer />
+      <Footer cmsPages={cmsPages} />
     </div>
   );
 };

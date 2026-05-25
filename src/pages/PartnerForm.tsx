@@ -39,7 +39,7 @@ const PartnerForm = ({ pageData, waNumber }: { pageData?: any, waNumber?: string
     <motion.section 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="min-h-screen pt-32 pb-20 bg-white"
+      className="min-h-screen pt-10 pb-20 bg-white"
     >
       <div className="max-w-4xl mx-auto px-6">
         <button 

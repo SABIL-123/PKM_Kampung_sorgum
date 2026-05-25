@@ -27,7 +27,7 @@ const Profile = ({ pageData }: { pageData?: any }) => {
   const cleanRichText = richTextData?.content?.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ');
 
   return (
-    <section className="py-24 bg-white">
+    <section className="pt-10 pb-24 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-20">
           <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-sorgum-accent mb-4 block">Profil Kami</span>

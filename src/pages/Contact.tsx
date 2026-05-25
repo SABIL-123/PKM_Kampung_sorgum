@@ -29,7 +29,7 @@ const Contact = ({ pageData, waNumber }: { pageData?: any, waNumber?: string }) 
   };
 
   return (
-    <section className="py-24 bg-sorgum-primary text-white min-h-screen pt-32">
+    <section className="pt-10 pb-24 bg-sorgum-primary text-white min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           <div>

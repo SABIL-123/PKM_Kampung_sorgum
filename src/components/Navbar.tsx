@@ -32,7 +32,7 @@ const Navbar = ({ cmsPages = [], isLoading = false }: { cmsPages?: any[], isLoad
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
-  const menuItems = cmsPages
+  const cmsMenuItems = cmsPages
     .filter((p: any) => {
       if (p.status !== 'published') return false;
       if (p.is_in_navbar !== 1 && p.is_in_navbar !== true) return false;
@@ -51,8 +51,19 @@ const Navbar = ({ cmsPages = [], isLoading = false }: { cmsPages?: any[], isLoad
       id: p.slug === 'beranda' ? '/' : `/${p.slug}`,
       label: p.title
     }));
+
+  const menuItems = cmsMenuItems.length > 0 ? cmsMenuItems : [
+    { id: '/', label: 'Beranda' },
+    { id: '/profil', label: 'Profil' },
+    { id: '/galeri', label: 'Galeri' },
+    { id: '/berita', label: 'Berita' },
+    { id: '/hubungi-kami', label: 'Hubungi Kami' },
+    { id: '/produk', label: 'Produk' }
+  ];
     
-  const showGabungMitra = cmsPages.some((p: any) => p.slug === 'gabung-mitra' && p.status === 'published' && (p.is_in_navbar === 1 || p.is_in_navbar === true));
+  const showGabungMitra = cmsPages.length > 0
+    ? cmsPages.some((p: any) => p.slug === 'gabung-mitra' && p.status === 'published' && (p.is_in_navbar === 1 || p.is_in_navbar === true))
+    : true;
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-500 ${

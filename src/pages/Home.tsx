@@ -227,6 +227,7 @@ const Home = ({ pageData, produkPageData }: { pageData?: any, produkPageData?: a
                     {item.icon_image?.url || item.icon?.url || item.image?.url ? (
                       <img 
                         src={item.icon_image?.url || item.icon?.url || item.image?.url} 
+                        referrerPolicy="no-referrer"
                         className="w-full h-full object-cover p-3"
                         alt={item.title}
                       />
@@ -301,6 +302,7 @@ const Home = ({ pageData, produkPageData }: { pageData?: any, produkPageData?: a
               <div className="rounded-[24px] overflow-hidden aspect-[3/4] w-full relative bg-neutral-100 dark:bg-neutral-100">
                 <img 
                   src={benefitsImage} 
+                  referrerPolicy="no-referrer"
                   className="w-full h-full object-cover animate-fade-in"
                   alt="Sorghum Benefits"
                 />
@@ -398,7 +400,7 @@ const Home = ({ pageData, produkPageData }: { pageData?: any, produkPageData?: a
                   className="bg-sorgum-light dark:bg-sorgum-light rounded-[28px] overflow-hidden border border-sorgum-primary/5 dark:border-sorgum-primary/5 shadow-md flex flex-col justify-between group hover:scale-[1.02] transition-all duration-300"
                 >
                   <div className="relative aspect-[16/10] overflow-hidden bg-neutral-100 dark:bg-neutral-100">
-                    <img src={prod.img} alt={prod.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={prod.img} referrerPolicy="no-referrer" alt={prod.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute top-4 left-4 bg-white/95 dark:bg-white/95 border border-sorgum-primary/10 dark:border-sorgum-primary/10 px-3 py-1 rounded-full text-[9px] font-bold text-sorgum-primary dark:text-sorgum-primary uppercase tracking-widest">
                       {prod.tag}
                     </div>

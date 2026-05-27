@@ -15,9 +15,9 @@ import Contact from './pages/Contact';
 import PartnerForm from './pages/PartnerForm';
 import Products from './pages/Products';
 
-const CMS_API_URL = import.meta.env.VITE_CMS_API_LINK;
-const CMS_POSTS_URL = import.meta.env.VITE_CMS_API_POSTS_LINK;
-const CMS_API_KEY = import.meta.env.VITE_CMS_API_KEY;
+const CMS_API_URL = import.meta.env.VITE_CMS_API_LINK || 'https://uni-verse-headless-cms.onrender.com/api/v1/public/pages';
+const CMS_POSTS_URL = import.meta.env.VITE_CMS_API_POSTS_LINK || 'https://uni-verse-headless-cms.onrender.com/api/v1/public/posts';
+const CMS_API_KEY = import.meta.env.VITE_CMS_API_KEY || 'uni_a5a45574aeecdc983f5d04d7a8c4ea0d73245a2f669bd055';
 
 const AnimatedRoutes = ({ cmsPages, cmsPosts, waNumber, isLoading }: any) => {
   const location = useLocation();

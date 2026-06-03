@@ -44,12 +44,12 @@ const Profile = ({ pageData }: { pageData?: any }) => {
               <div className="p-6 bg-sorgum-light rounded-3xl border border-sorgum-primary/5">
                 <Target className="text-sorgum-accent mb-4" />
                 <h4 className="font-bold text-xs uppercase mb-2">{visiData?.title || "Visi"}</h4>
-                <p className="text-xs text-neutral-500">{visiData?.subtitle || "Menjadi pusat inovasi sorghum terkemuka di Asia Tenggara."}</p>
+                <p className="text-xs text-neutral-500 text-justify">{visiData?.subtitle || "Menjadi pusat inovasi sorghum terkemuka di Asia Tenggara."}</p>
               </div>
               <div className="p-6 bg-sorgum-light rounded-3xl border border-sorgum-primary/5">
                 <Sprout className="text-sorgum-accent mb-4" />
                 <h4 className="font-bold text-xs uppercase mb-2">{misiData?.title || "Misi"}</h4>
-                <p className="text-xs text-neutral-500">{misiData?.subtitle || "Memberdayakan petani melalui edukasi dan akses pasar."}</p>
+                <p className="text-xs text-neutral-500 text-justify">{misiData?.subtitle || "Memberdayakan petani melalui edukasi dan akses pasar."}</p>
               </div>
             </div>
           </div>

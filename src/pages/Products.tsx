@@ -119,10 +119,10 @@ export default function Products({ pageData, waNumber = '628112428868' }: Produc
         >
           <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-sorgum-accent mb-4 block">Katalog Resmi</span>
           <h1 className="font-serif text-5xl md:text-6xl text-sorgum-primary dark:text-sorgum-primary leading-tight mb-6">
-            {pageData?.title || "Produk Sorgum Kami"}
+            {cmsProductsBlock?.data?.title || pageData?.title || "Produk Sorgum Kami"}
           </h1>
           <p className="text-neutral-500 dark:text-neutral-500 text-base max-w-2xl mx-auto font-light leading-relaxed">
-            {pageData?.subtitle || "Temukan berbagai produk olahan sorgum pilihan berkualitas tinggi yang ditanam langsung oleh petani lokal, bebas gluten, kaya serat, dan ramah lingkungan."}
+            {cmsProductsBlock?.data?.subtitle || pageData?.subtitle || "Temukan berbagai produk olahan sorgum pilihan berkualitas tinggi yang ditanam langsung oleh petani lokal, bebas gluten, kaya serat, dan ramah lingkungan."}
           </p>
         </motion.div>
       </section>

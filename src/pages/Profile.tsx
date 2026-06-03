@@ -18,8 +18,8 @@ const Profile = ({ pageData }: { pageData?: any }) => {
 
 
   const heroData = pageData?.content?.find((c: any) => c.type === 'hero')?.data;
-  const visiData = pageData?.content?.find((c: any) => c.type === 'features' && c.data.title === 'Visi')?.data;
-  const misiData = pageData?.content?.find((c: any) => c.type === 'features' && c.data.title === 'Misi')?.data;
+  const visiData = pageData?.content?.find((c: any) => c.type === 'features' && c.data.title?.toLowerCase().includes('visi'))?.data;
+  const misiData = pageData?.content?.find((c: any) => c.type === 'features' && c.data.title?.toLowerCase().includes('misi'))?.data;
   const richTextData = pageData?.content?.find((c: any) => c.type === 'rich-text')?.data;
   const galleryData = pageData?.content?.find((c: any) => c.type === 'gallery')?.data;
 
